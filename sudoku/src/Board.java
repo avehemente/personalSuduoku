@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Board {
@@ -7,6 +6,9 @@ public class Board {
     private ArrayList<HashSet<Integer>> filled;
     private int[][] positions;
 
+    /**
+     * The Board Constructor
+     */
     public Board() {
         this.solved = false;
         this.positions = new int[9][9];
@@ -19,8 +21,17 @@ public class Board {
         for (int i = 0; i < 27; i++) {
             this.filled.add(new HashSet<Integer>());
         }
+
+
     }
 
+    /**
+     * Places a number at position x, y on the sudoku board.
+     * @param entered The number to be placed.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if the number was successfully placed there.
+     */
     public boolean placeNumber(int entered, int x, int y) {
         //place number at position x, y: (0,0) is bottom left
         //boxes are numbered 0 in the bottomleft, 8 in the top right, increases left to right, bottom to top
@@ -40,6 +51,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * Remove the number at position x, y.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if there was a number to be removed.
+     */
     public boolean removeNumber(int x, int y) {
         int toRemove = this.positions[x][y];
         if (toRemove == 0) return false;
@@ -49,6 +66,10 @@ public class Board {
         return true;
     }
 
+    /**
+     * Check if the board is in a solved state.
+     * @return True if the board is in a solved state (i.e. all rows, cols, and boxes have 1-9)
+     */
     public boolean isSolved() {
         for (HashSet<Integer> cur: this.filled) {
             for (int i = 1; i <= 9; i++) {
@@ -58,6 +79,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * Get the box number of a specified coordinate.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The box number corresponding to the given coordinates.
+     */
     public int getBoxNumber(int x, int y) {
         int boxNumber;
 
@@ -80,4 +107,7 @@ public class Board {
         return boxNumber;
     }
 
+    public void solve() {
+
+    }
 }
