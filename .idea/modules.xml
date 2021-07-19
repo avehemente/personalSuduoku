@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/personal_projects.iml" filepath="$PROJECT_DIR$/personal_projects.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sudoku_project.iml" filepath="$PROJECT_DIR$/sudoku_project.iml" />
     </modules>
   </component>
 </project>

@@ -107,6 +107,9 @@ public class Board {
         return boxNumber;
     }
 
+    /**
+     * Solve this board.
+     */
     public void solve() {
 
     }
