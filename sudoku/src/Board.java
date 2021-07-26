@@ -3,7 +3,7 @@ import java.util.*;
 public class Board {
 
     private boolean solved;
-    private ArrayList<HashSet<Integer>> filled;
+    private ArrayList<HashMap<Integer, Integer>> filled;
     private int[][] positions;
     private int numsFilled;
 
@@ -19,9 +19,9 @@ public class Board {
                 this.positions[i][j] = 0;
             }
         }
-        this.filled = new ArrayList<HashSet<Integer>>();
+        this.filled = new ArrayList<HashMap<Integer, Integer>>();
         for (int i = 0; i < 27; i++) {
-            this.filled.add(new HashSet<Integer>());
+            this.filled.add(new HashMap<Integer, Integer>());
         }
 
 
@@ -39,16 +39,13 @@ public class Board {
         //boxes are numbered 0 in the top left, 8 in the bottom right, increases left to right, top to bottom
         int boxNumber = getBoxNumber(x,y);
 
-        HashSet<Integer> curRow = this.filled.get(y);
-        HashSet<Integer> curCol = this.filled.get(9 + x);
-        HashSet<Integer> curBox = this.filled.get(18 + boxNumber);
-        if (curRow.contains(entered) || curCol.contains(entered) || curBox.contains(entered)) {
-            return false;
-        }
+        HashMap<Integer,Integer> curRow = filled.get(y);
+        HashMap<Integer,Integer> curCol = filled.get(9 + x);
+        HashMap<Integer,Integer> curBox = filled.get(18 + boxNumber);
 
-        curRow.add(entered);
-        curCol.add((entered));
-        curBox.add(entered);
+        curRow.replace(entered, curRow.get(entered) + 1);
+        curCol.replace(entered, curCol.get(entered + 1));
+        curBox.replace(entered, curBox.get(entered + 1));
         this.positions[x][y] = entered;
         return true;
     }
@@ -62,14 +59,19 @@ public class Board {
     public boolean removeNumber(int x, int y) {
         int toRemove = this.positions[x][y];
         if (toRemove == 0) return false;
-        this.filled.get(y).remove(toRemove);
-        this.filled.get(9 + x).remove(toRemove);
-        this.filled.get(18 + getBoxNumber(x,y)).remove(toRemove);
+        int boxNumber = getBoxNumber(x,y);
+        filled.get(y).replace(toRemove, filled.get(y).get(toRemove) - 1);
+        filled.get(9 + x).replace(toRemove, filled.get(9 + x).get(toRemove) - 1);
+        filled.get(18 + boxNumber).replace(toRemove, filled.get(18 + boxNumber).get(toRemove) - 1);
         return true;
     }
 
     public boolean validBoardState() {
-
+        for (HashMap<Integer, Integer> cur: filled) {
+            for (int i = 1; i <= 9; i++) {
+                if (cur.get(i) > 1) return false;
+            }
+        }
         return true;
     }
     /**
