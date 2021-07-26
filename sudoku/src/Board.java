@@ -50,7 +50,7 @@ public class Board {
         curRow.replace(entered, curRow.get(entered) + 1);
         curCol.replace(entered, curCol.get(entered + 1));
         curBox.replace(entered, curBox.get(entered + 1));
-        this.positions[x][y] = entered;
+        this.board[x][y] = entered;
         this.numsFilled++;
         return true;
     }
@@ -115,7 +115,7 @@ public class Board {
     }
 
     /**
-     * Solve this board.
+     * Solve this board from its current state.
      */
     public void solve() {
         ArrayList<HashSet<Integer>> filled = new ArrayList<>();
@@ -128,7 +128,7 @@ public class Board {
         //i == row, j == col
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (board[i][j] != '.') {
+                if (board[i][j] != 0) {
                     unremovable[i][j] = true;
                     filled.get(i).add(board[i][j]);
                     filled.get(9 + j).add(board[i][j]);
@@ -161,7 +161,7 @@ public class Board {
                 curBox.add(x);
                 boolean solved = solveHelper(board, i, j + 1, filled, unremovable);
                 if (solved) return true;
-                board[i][j] = '.';
+                board[i][j] = 0;
                 curRow.remove(x);
                 curCol.remove(x);
                 curBox.remove(x);
