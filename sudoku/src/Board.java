@@ -19,9 +19,14 @@ public class Board {
                 this.positions[i][j] = 0;
             }
         }
+        HashMap<Integer, Integer> cur;
         this.filled = new ArrayList<HashMap<Integer, Integer>>();
         for (int i = 0; i < 27; i++) {
-            this.filled.add(new HashMap<Integer, Integer>());
+            cur = new HashMap<Integer, Integer>();
+            for (int j = 1; j <= 9; j++) {
+                cur.put(j, 0);
+            }
+            filled.add(cur);
         }
 
 
@@ -79,13 +84,7 @@ public class Board {
      * @return True if the board is in a solved state (i.e. all rows, cols, and boxes have 1-9)
      */
     public boolean isSolved() {
-        if (this.numsFilled < 81) return false;
-        for (HashSet<Integer> cur: this.filled) {
-            for (int i = 1; i <= 9; i++) {
-                if (!cur.contains(i)) return false;
-            }
-        }
-        return true;
+        return numsFilled == 81 && validBoardState();
     }
 
     /**
