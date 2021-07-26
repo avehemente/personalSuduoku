@@ -3,8 +3,10 @@ import java.util.*;
 public class Board {
 
     private boolean solved;
-    private ArrayList<HashMap<Integer, Integer>> filled;
     private int[][] board;
+    private boolean[][] fixed;
+    private ArrayList<HashMap<Integer, Integer>> filled;
+
     private int numsFilled;
 
     /**
@@ -19,6 +21,7 @@ public class Board {
                 this.board[i][j] = 0;
             }
         }
+        this.fixed = new boolean[9][9];
         HashMap<Integer, Integer> cur;
         this.filled = new ArrayList<HashMap<Integer, Integer>>();
         for (int i = 0; i < 27; i++) {
@@ -28,7 +31,6 @@ public class Board {
             }
             filled.add(cur);
         }
-
     }
 
     /**
@@ -88,6 +90,29 @@ public class Board {
         return numsFilled == 81 && validBoardState();
     }
 
+    public boolean solve() {
+        return solveHelper(0,0);
+    }
+    public boolean solveHelper(int i, int j) {
+        if (!validBoardState()) return false;
+        if (i > 8) return true;
+        if (j > 8) return solveHelper(i + 1, 0);
+        if (fixed[i][j]) return solveHelper(i, j + 1);
+
+        boolean solved;
+        for (int x = 1; x <= 9; x++){
+            placeNumber(x, i, j);
+            solved = solveHelper(i, j + 1);
+            if (solved) return true;
+            removeNumber(i, j);
+        }
+        return false;
+    }
+
+    public void generateBoard() {
+
+    }
+
     /**
      * Get the box number of a specified coordinate.
      * @param x The x coordinate.
@@ -111,66 +136,6 @@ public class Board {
             else if (x < 6) return 7;
             else return 8;
         }
-
-    }
-
-    /**
-     * Solve this board from its current state.
-     */
-    public void solve() {
-        ArrayList<HashSet<Integer>> filled = new ArrayList<>();
-        boolean[][] unremovable = new boolean[9][9];
-        HashSet<Integer> cur;
-        for (int i = 0; i < 27; i++) {
-            cur = new HashSet<Integer>();
-            filled.add(cur);
-        }
-        //i == row, j == col
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (board[i][j] != 0) {
-                    unremovable[i][j] = true;
-                    filled.get(i).add(board[i][j]);
-                    filled.get(9 + j).add(board[i][j]);
-                    filled.get(18 + getBoxNumber(i, j)).add(board[i][j]);
-                }
-                else unremovable[i][j] = false;
-
-            }
-        }
-        solveHelper(board, 0, 0, filled, unremovable);
-    }
-
-    public boolean solveHelper(int[][] board, int i, int j, List<HashSet<Integer>> filled, boolean[][] unremovable) {
-        if (i > 8) return true;
-        if (j > 8) return solveHelper(board, i + 1, 0, filled, unremovable);
-        if (unremovable[i][j]) return solveHelper(board, i, j + 1, filled, unremovable);
-
-        HashSet<Integer> curRow = filled.get(i);
-        HashSet<Integer> curCol = filled.get(9 + j);
-        HashSet<Integer> curBox = filled.get(18 + getBoxNumber(i,j));
-        System.out.println(curRow);
-        System.out.println(curCol);
-        System.out.println(curBox);
-
-        for (int x = 1; x <= 9; x++){
-            if (!curRow.contains(x) && !curCol.contains(x) && !curBox.contains(x)) {
-                board[i][j] = x;
-                curRow.add(x);
-                curCol.add(x);
-                curBox.add(x);
-                boolean solved = solveHelper(board, i, j + 1, filled, unremovable);
-                if (solved) return true;
-                board[i][j] = 0;
-                curRow.remove(x);
-                curCol.remove(x);
-                curBox.remove(x);
-            }
-        }
-        return false;
-    }
-
-    public void generateBoard() {
 
     }
 }
