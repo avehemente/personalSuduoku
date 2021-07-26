@@ -4,7 +4,7 @@ public class Board {
 
     private boolean solved;
     private ArrayList<HashMap<Integer, Integer>> filled;
-    private int[][] positions;
+    private int[][] board;
     private int numsFilled;
 
     /**
@@ -13,10 +13,10 @@ public class Board {
     public Board() {
         this.numsFilled = 0;
         this.solved = false;
-        this.positions = new int[9][9];
+        this.board = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                this.positions[i][j] = 0;
+                this.board[i][j] = 0;
             }
         }
         HashMap<Integer, Integer> cur;
@@ -28,7 +28,6 @@ public class Board {
             }
             filled.add(cur);
         }
-
 
     }
 
@@ -52,6 +51,7 @@ public class Board {
         curCol.replace(entered, curCol.get(entered + 1));
         curBox.replace(entered, curBox.get(entered + 1));
         this.positions[x][y] = entered;
+        this.numsFilled++;
         return true;
     }
 
@@ -62,12 +62,13 @@ public class Board {
      * @return True if there was a number to be removed.
      */
     public boolean removeNumber(int x, int y) {
-        int toRemove = this.positions[x][y];
+        int toRemove = this.board[x][y];
         if (toRemove == 0) return false;
         int boxNumber = getBoxNumber(x,y);
         filled.get(y).replace(toRemove, filled.get(y).get(toRemove) - 1);
         filled.get(9 + x).replace(toRemove, filled.get(9 + x).get(toRemove) - 1);
         filled.get(18 + boxNumber).replace(toRemove, filled.get(18 + boxNumber).get(toRemove) - 1);
+        this.numsFilled--;
         return true;
     }
 
@@ -116,8 +117,57 @@ public class Board {
     /**
      * Solve this board.
      */
-    public void solve(int x, int y) {
+    public void solve() {
+        ArrayList<HashSet<Integer>> filled = new ArrayList<>();
+        boolean[][] unremovable = new boolean[9][9];
+        HashSet<Integer> cur;
+        for (int i = 0; i < 27; i++) {
+            cur = new HashSet<Integer>();
+            filled.add(cur);
+        }
+        //i == row, j == col
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] != '.') {
+                    unremovable[i][j] = true;
+                    filled.get(i).add(board[i][j]);
+                    filled.get(9 + j).add(board[i][j]);
+                    filled.get(18 + getBoxNumber(i, j)).add(board[i][j]);
+                }
+                else unremovable[i][j] = false;
 
+            }
+        }
+        solveHelper(board, 0, 0, filled, unremovable);
+    }
+
+    public boolean solveHelper(int[][] board, int i, int j, List<HashSet<Integer>> filled, boolean[][] unremovable) {
+        if (i > 8) return true;
+        if (j > 8) return solveHelper(board, i + 1, 0, filled, unremovable);
+        if (unremovable[i][j]) return solveHelper(board, i, j + 1, filled, unremovable);
+
+        HashSet<Integer> curRow = filled.get(i);
+        HashSet<Integer> curCol = filled.get(9 + j);
+        HashSet<Integer> curBox = filled.get(18 + getBoxNumber(i,j));
+        System.out.println(curRow);
+        System.out.println(curCol);
+        System.out.println(curBox);
+
+        for (int x = 1; x <= 9; x++){
+            if (!curRow.contains(x) && !curCol.contains(x) && !curBox.contains(x)) {
+                board[i][j] = x;
+                curRow.add(x);
+                curCol.add(x);
+                curBox.add(x);
+                boolean solved = solveHelper(board, i, j + 1, filled, unremovable);
+                if (solved) return true;
+                board[i][j] = '.';
+                curRow.remove(x);
+                curCol.remove(x);
+                curBox.remove(x);
+            }
+        }
+        return false;
     }
 
     public void generateBoard() {
