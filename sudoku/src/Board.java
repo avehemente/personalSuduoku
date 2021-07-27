@@ -10,7 +10,7 @@ public class Board {
     private int numsFilled;
 
     /**
-     * The Board Constructor
+     * Generate an empty board
      */
     public Board() {
         this.numsFilled = 0;
@@ -22,6 +22,11 @@ public class Board {
             }
         }
         this.fixed = new boolean[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                this.fixed[i][j] = false;
+            }
+        }
         HashMap<Integer, Integer> cur;
         this.filled = new ArrayList<HashMap<Integer, Integer>>();
         for (int i = 0; i < 27; i++) {
