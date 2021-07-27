@@ -10,7 +10,7 @@ public class Board {
     private int numsFilled;
 
     /**
-     * Generate an empty board
+     * Generate an empty board.
      */
     public Board() {
         this.numsFilled = 0;
@@ -121,6 +121,8 @@ public class Board {
 
     }
 
+    /*Utility Functions */
+
     /**
      * Get the box number of a specified coordinate.
      * @param x The x coordinate.
@@ -145,5 +147,14 @@ public class Board {
             else return 8;
         }
 
+    }
+
+    public String toString() {
+        StringBuilder rv = new StringBuilder();
+        for (int[] cur: board) {
+            rv.append(Arrays.toString(cur));
+            rv.append("\n");
+        }
+        return rv.toString();
     }
 }

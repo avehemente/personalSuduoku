@@ -25,6 +25,20 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="sudoku_project" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -37,5 +51,23 @@
       <updated>1626734789924</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1561" height="246" key="GridCell.Tab.0.bottom" timestamp="1627346889558">
+      <screen x="-1920" y="-157" width="1920" height="1057" />
+    </state>
+    <state width="1561" height="246" key="GridCell.Tab.0.bottom/0.23.1440.877/-1920.-157.1920.1057@-1920.-157.1920.1057" timestamp="1627346889558" />
+    <state width="1561" height="246" key="GridCell.Tab.0.center" timestamp="1627346889557">
+      <screen x="-1920" y="-157" width="1920" height="1057" />
+    </state>
+    <state width="1561" height="246" key="GridCell.Tab.0.center/0.23.1440.877/-1920.-157.1920.1057@-1920.-157.1920.1057" timestamp="1627346889557" />
+    <state width="1561" height="246" key="GridCell.Tab.0.left" timestamp="1627346889556">
+      <screen x="-1920" y="-157" width="1920" height="1057" />
+    </state>
+    <state width="1561" height="246" key="GridCell.Tab.0.left/0.23.1440.877/-1920.-157.1920.1057@-1920.-157.1920.1057" timestamp="1627346889556" />
+    <state width="1561" height="246" key="GridCell.Tab.0.right" timestamp="1627346889557">
+      <screen x="-1920" y="-157" width="1920" height="1057" />
+    </state>
+    <state width="1561" height="246" key="GridCell.Tab.0.right/0.23.1440.877/-1920.-157.1920.1057@-1920.-157.1920.1057" timestamp="1627346889557" />
   </component>
 </project>
