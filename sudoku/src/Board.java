@@ -69,6 +69,7 @@ public class Board {
      */
     public boolean removeNumber(int i, int j) {
         int toRemove = this.board[i][j];
+        this.board[i][j] = 0;
         if (toRemove == 0) return false;
         int boxNumber = getBoxNumber(i,j);
         filled.get(i).replace(toRemove, filled.get(i).get(toRemove) - 1);
@@ -160,6 +161,7 @@ public class Board {
     }
 
     public String toString() {
+        System.out.println(filled);
         StringBuilder rv = new StringBuilder();
         for (int[] cur: board) {
             rv.append(Arrays.toString(cur));
