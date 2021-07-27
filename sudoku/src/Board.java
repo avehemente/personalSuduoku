@@ -5,6 +5,15 @@ public class Board {
     private boolean[][] fixed;
     private ArrayList<HashMap<Integer, Integer>> filled;
     private int numsFilled;
+    private int[][] exampleBoard = {{5,3,0,0,7,0,0,0,0},
+                                    {6,0,0,1,9,5,0,0,0},
+                                    {0,9,8,0,0,0,0,6,0},
+                                    {8,0,0,0,6,0,0,0,3},
+                                    {4,0,0,8,0,3,0,0,1},
+                                    {7,0,0,0,2,0,0,0,6},
+                                    {0,6,0,0,0,0,2,8,0},
+                                    {0,0,0,4,1,9,0,0,5},
+                                    {0,0,0,0,8,0,0,7,9}};
 
     /**
      * Generate an empty board.
@@ -126,19 +135,37 @@ public class Board {
     }
 
     public void generateBoard() {
-        int[][] example = {{5,3,0,0,7,0,0,0,0},
-                            {6,0,0,1,9,5,0,0,0},
-                            {0,9,8,0,0,0,0,6,0},
-                            {8,0,0,0,6,0,0,0,3},
-                            {4,0,0,8,0,3,0,0,1},
-                            {7,0,0,0,2,0,0,0,6},
-                            {0,6,0,0,0,0,2,8,0},
-                            {0,0,0,4,1,9,0,0,5},
-                            {0,0,0,0,8,0,0,7,9}};
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (example[i][j] > 0) placeNumber(example[i][j], i,j);
-                this.fixed[i][j] = example[i][j] > 0;
+        int numRemoved = 55;
+        //randomize and fix first row
+        ArrayList<Integer> firstRow = new ArrayList<>();
+        for (int i = 1; i <= 9; i++){
+            firstRow.add(i);
+        }
+        Collections.shuffle(firstRow);
+        System.out.println(firstRow);
+        for (int j = 0; j < 9; j++) {
+            placeNumber(firstRow.get(j), 0, j);
+            fixed[0][j] = true;
+        }
+        //solve from the given configuration
+        solve();
+
+        //unfix first row and randomly remove numRemoved elems
+        for (int j = 0; j < 9; j++) {
+            fixed[0][j] = false;
+        }
+
+        Random r = new Random();
+        while (numRemoved > 0) {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if(r.nextBoolean()) {
+                        if(removeNumber(i,j)) {
+                            numRemoved--;
+                        }
+                        if (numRemoved == 0) break;
+                    }
+                }
             }
         }
     }
@@ -176,7 +203,7 @@ public class Board {
         rv.append("\n");
         for (int i = 0; i < 9; i++) {
             if (i % 3 == 0) {
-                for (int k = 0; k < 27; k++) {
+                for (int k = 0; k < 25; k++) {
                     rv.append("-");
                 }
                 rv.append("\n");
@@ -186,8 +213,11 @@ public class Board {
                 rv.append(Integer.toString(board[i][j]));
                 rv.append(" ");
             }
-            rv.append(" |");
+            rv.append("|");
             rv.append("\n");
+        }
+        for (int i = 0; i < 25; i++) {
+            rv.append("-");
         }
         return rv.toString();
     }
