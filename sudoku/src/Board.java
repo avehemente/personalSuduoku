@@ -1,12 +1,9 @@
 import java.util.*;
 
 public class Board {
-
-    private boolean solved;
     private int[][] board;
     private boolean[][] fixed;
     private ArrayList<HashMap<Integer, Integer>> filled;
-
     private int numsFilled;
 
     /**
@@ -14,7 +11,6 @@ public class Board {
      */
     public Board() {
         this.numsFilled = 0;
-        this.solved = false;
         this.board = new int[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -58,8 +54,8 @@ public class Board {
         HashMap<Integer,Integer> curBox = filled.get(18 + boxNumber);
 
         curRow.replace(entered, curRow.get(entered) + 1);
-        curCol.replace(entered, curCol.get(entered + 1));
-        curBox.replace(entered, curBox.get(entered + 1));
+        curCol.replace(entered, curCol.get(entered) + 1);
+        curBox.replace(entered, curBox.get(entered)+ 1);
         this.board[i][j] = entered;
         this.numsFilled++;
         return true;
@@ -67,8 +63,8 @@ public class Board {
 
     /**
      * Remove the number at position x, y.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param i The row number.
+     * @param j The col number.
      * @return True if there was a number to be removed.
      */
     public boolean removeNumber(int i, int j) {
@@ -125,8 +121,8 @@ public class Board {
 
     /**
      * Get the box number of a specified coordinate.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param i The row number.
+     * @param j The col number.
      * @return The box number corresponding to the given coordinates.
      */
     public static int getBoxNumber(int i, int j) {
