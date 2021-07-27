@@ -44,7 +44,7 @@ public class Board {
     }
 
     /**
-     * Places a number at position x, y on the sudoku board.
+     * Places a number at position i, j on the sudoku board.
      * @param entered The number to be placed.
      * @param i The row number.
      * @param j The col number.
