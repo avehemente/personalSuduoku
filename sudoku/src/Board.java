@@ -125,8 +125,15 @@ public class Board {
         if (fixed[i][j]) return solveHelper(i, j + 1);
 
         boolean solved;
-        for (int x = 1; x <= 9; x++){
-            placeNumber(x, i, j);
+        ArrayList<Integer> nums = new ArrayList<>();
+        for (int k = 1; k <=9; k++) {
+            nums.add(k);
+        }
+        Collections.shuffle(nums);
+        int cur;
+        for (int x = 0; x < 9; x++){
+            cur = nums.get(x);
+            placeNumber(cur, i, j);
             solved = solveHelper(i, j + 1);
             if (solved) return true;
             removeNumber(i, j);
@@ -134,26 +141,11 @@ public class Board {
         return false;
     }
 
-    public void generateBoard() {
-        int numRemoved = 55;
-        //randomize and fix first row
-        ArrayList<Integer> firstRow = new ArrayList<>();
-        for (int i = 1; i <= 9; i++){
-            firstRow.add(i);
-        }
-        Collections.shuffle(firstRow);
-        for (int j = 0; j < 9; j++) {
-            placeNumber(firstRow.get(j), 0, j);
-            fixed[0][j] = true;
-        }
-        //solve from the given configuration
+    public void generateBoard(int numClues) {
+        assert(numClues > 20);
+        int numRemoved = 81 - numClues;
         solve();
-
-        //unfix first row and randomly remove numRemoved elems
-        for (int j = 0; j < 9; j++) {
-            fixed[0][j] = false;
-        }
-
+        //randomly remove numRemoved numbers
         Random r = new Random();
         while (numRemoved > 0) {
             for (int i = 0; i < 9; i++) {
