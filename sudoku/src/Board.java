@@ -172,10 +172,21 @@ public class Board {
     }
 
     public String toString() {
-        System.out.println(filled);
         StringBuilder rv = new StringBuilder();
-        for (int[] cur: board) {
-            rv.append(Arrays.toString(cur));
+        rv.append("\n");
+        for (int i = 0; i < 9; i++) {
+            if (i % 3 == 0) {
+                for (int k = 0; k < 27; k++) {
+                    rv.append("-");
+                }
+                rv.append("\n");
+            }
+            for (int j = 0; j < 9; j++) {
+                if (j % 3 == 0) rv.append("| ");
+                rv.append(Integer.toString(board[i][j]));
+                rv.append(" ");
+            }
+            rv.append(" |");
             rv.append("\n");
         }
         return rv.toString();
