@@ -43,6 +43,9 @@ public class Board {
     public boolean placeNumber(int entered, int x, int y) {
         //place number at position x, y: (0,0) is top left
         //boxes are numbered 0 in the top left, 8 in the bottom right, increases left to right, top to bottom
+        if (board[x][y] != 0) {
+            removeNumber(x, y);
+        }
         int boxNumber = getBoxNumber(x,y);
 
         HashMap<Integer,Integer> curRow = filled.get(y);
