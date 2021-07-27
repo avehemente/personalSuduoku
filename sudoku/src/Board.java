@@ -41,26 +41,26 @@ public class Board {
     /**
      * Places a number at position x, y on the sudoku board.
      * @param entered The number to be placed.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
+     * @param i The row number.
+     * @param j The col number.
      * @return True if the number was successfully placed there.
      */
-    public boolean placeNumber(int entered, int x, int y) {
-        //place number at position x, y: (0,0) is top left
+    public boolean placeNumber(int entered, int i, int j) {
+        //place number at position row i, col j in the board matrix
         //boxes are numbered 0 in the top left, 8 in the bottom right, increases left to right, top to bottom
-        if (board[x][y] != 0) {
-            removeNumber(x, y);
+        if (board[i][j] != 0) {
+            removeNumber(i, j);
         }
-        int boxNumber = getBoxNumber(x,y);
+        int boxNumber = getBoxNumber(i,j);
 
-        HashMap<Integer,Integer> curRow = filled.get(y);
-        HashMap<Integer,Integer> curCol = filled.get(9 + x);
+        HashMap<Integer,Integer> curRow = filled.get(i);
+        HashMap<Integer,Integer> curCol = filled.get(9 + j);
         HashMap<Integer,Integer> curBox = filled.get(18 + boxNumber);
 
         curRow.replace(entered, curRow.get(entered) + 1);
         curCol.replace(entered, curCol.get(entered + 1));
         curBox.replace(entered, curBox.get(entered + 1));
-        this.board[x][y] = entered;
+        this.board[i][j] = entered;
         this.numsFilled++;
         return true;
     }
@@ -71,12 +71,12 @@ public class Board {
      * @param y The y coordinate.
      * @return True if there was a number to be removed.
      */
-    public boolean removeNumber(int x, int y) {
-        int toRemove = this.board[x][y];
+    public boolean removeNumber(int i, int j) {
+        int toRemove = this.board[i][j];
         if (toRemove == 0) return false;
-        int boxNumber = getBoxNumber(x,y);
-        filled.get(y).replace(toRemove, filled.get(y).get(toRemove) - 1);
-        filled.get(9 + x).replace(toRemove, filled.get(9 + x).get(toRemove) - 1);
+        int boxNumber = getBoxNumber(i,j);
+        filled.get(i).replace(toRemove, filled.get(i).get(toRemove) - 1);
+        filled.get(9 + j).replace(toRemove, filled.get(9 + j).get(toRemove) - 1);
         filled.get(18 + boxNumber).replace(toRemove, filled.get(18 + boxNumber).get(toRemove) - 1);
         this.numsFilled--;
         return true;
@@ -129,21 +129,21 @@ public class Board {
      * @param y The y coordinate.
      * @return The box number corresponding to the given coordinates.
      */
-    public static int getBoxNumber(int x, int y) {
+    public static int getBoxNumber(int i, int j) {
 
-        if (y < 3) {
-            if (x < 3) return 0;
-            else if (x < 6) return 1;
+        if (i < 3) {
+            if (j < 3) return 0;
+            else if (j < 6) return 1;
             else return 2;
         }
-        else if (y < 6) {
-            if (x < 3) return 3;
-            else if (x < 6) return 4;
+        else if (i < 6) {
+            if (j < 3) return 3;
+            else if (j < 6) return 4;
             else return 5;
         }
         else {
-            if (x < 3) return 6;
-            else if (x < 6) return 7;
+            if (j < 3) return 6;
+            else if (j < 6) return 7;
             else return 8;
         }
 
