@@ -142,7 +142,6 @@ public class Board {
             firstRow.add(i);
         }
         Collections.shuffle(firstRow);
-        System.out.println(firstRow);
         for (int j = 0; j < 9; j++) {
             placeNumber(firstRow.get(j), 0, j);
             fixed[0][j] = true;
@@ -166,6 +165,13 @@ public class Board {
                         if (numRemoved == 0) break;
                     }
                 }
+            }
+        }
+
+        //fix the remaining numbers as clues
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] > 0) fixed[i][j] = true;
             }
         }
     }
