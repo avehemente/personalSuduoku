@@ -44,6 +44,7 @@ public class Board {
     public boolean placeNumber(int entered, int i, int j) {
         //place number at position row i, col j in the board matrix
         //boxes are numbered 0 in the top left, 8 in the bottom right, increases left to right, top to bottom
+        if (fixed[i][j]) return false;
         if (board[i][j] != 0) {
             removeNumber(i, j);
         }
@@ -69,14 +70,24 @@ public class Board {
      */
     public boolean removeNumber(int i, int j) {
         int toRemove = this.board[i][j];
+        if (toRemove == 0 || fixed[i][j]) return false;
         this.board[i][j] = 0;
-        if (toRemove == 0) return false;
         int boxNumber = getBoxNumber(i,j);
         filled.get(i).replace(toRemove, filled.get(i).get(toRemove) - 1);
         filled.get(9 + j).replace(toRemove, filled.get(9 + j).get(toRemove) - 1);
         filled.get(18 + boxNumber).replace(toRemove, filled.get(18 + boxNumber).get(toRemove) - 1);
         this.numsFilled--;
         return true;
+    }
+
+    /**
+     * Clear the board to its original state.
+     */
+    public void clear() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++)
+                removeNumber(i, j);
+        }
     }
 
     public boolean validBoardState() {
