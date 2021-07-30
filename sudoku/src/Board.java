@@ -208,7 +208,7 @@ public class Board {
             }
             for (int j = 0; j < 9; j++) {
                 if (j % 3 == 0) rv.append("| ");
-                rv.append(Integer.toString(board[i][j]));
+                rv.append(board[i][j]);
                 rv.append(" ");
             }
             rv.append("|");
